@@ -1,0 +1,25 @@
+= simple_form_for @project, html: { multipart: true } do |f|
+	- if @project.errors.any?
+		#errors
+			%p
+				= @project.errors.count
+				Prevented this project froms saving
+			%ul
+				- @project.errors.full_messages.each do |msg|
+					%li= msg
+	.panel-body
+		= f.input :titolo, input_html: { class: 'form-control' }
+		= f.input :id_cliente, input_html: { class: 'form-control' }
+		= f.input :stato, input_html: { class: 'form-control' }
+
+		.row
+			.col-md-6
+				%h3 lavori
+				#ingredients
+					= f.simple_fields_for :works do |work|
+						= render 'work_fields', f: work
+					.links
+						= link_to_add_association 'Aggiungi Lavoro', f, :works, class: "btn btn-default add-button"
+
+			
+	= f.button :submit, class: "btn btn-primary"

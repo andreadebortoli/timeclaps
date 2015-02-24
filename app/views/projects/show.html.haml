@@ -1,0 +1,37 @@
+.main_content
+	#recipe_top.row
+		
+		.col-md-8
+			#recipe_info
+				%h1= @project.titolo
+				%p.stato= @project.stato
+				
+
+	.row
+		.col-md-
+			#ingredients
+				%h2 Lavori:
+				%table.table
+					%tbody
+						%tr
+							%th data
+							%th attività
+							%th loc
+					- @project.works.each do |work|
+						%tr
+							%td= work.data.strftime("%d-%m-%Y")
+							%td= work.activity
+							%td= work.location_id
+
+				
+						
+
+
+		
+	.row
+		.col-md-12
+			= link_to "indietro", root_path, class: "btn btn-default"
+			
+			= link_to "Modifica", edit_project_path, class: "btn btn-default"
+			= link_to "Cancella", project_path, method: :delete, data: {confirm: "Sei sicuro?" }, class: "btn btn-default"
+
