@@ -2,25 +2,27 @@
 	#recipe_top.row
 		
 		.col-md-8
-			#recipe_info
+			#project_info
 				%h1= @project.titolo
 				%p.stato= @project.stato
 				
 
 	.row
 		.col-md-
-			#ingredients
+			#lavori
 				%h2 Lavori:
 				%table.table
 					%tbody
 						%tr
 							%th data
 							%th attività
+							%th colonna
 							%th loc
 					- @project.works.each do |work|
 						%tr
 							%td= work.data.strftime("%d-%m-%Y")
 							%td= work.activity
+							%td= work.column
 							%td= work.location_id
 
 				

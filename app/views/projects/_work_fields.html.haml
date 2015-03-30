@@ -1,7 +1,14 @@
 .form-inline.clearfix
 	.nested-fields
 
-		= f.date_select :data, input_html: { class: 'form-input form-control' }
-		= f.input :activity, collection: [ "macchinista", "elettricista", "service"], input_html: { class: 'form-input form-control' }
-		= f.input :location_id, input_html: { class: 'form-input form-control' }
-		= link_to_remove_association "Remove", f, class: "form-button btn btn-default"
+		= f.date_select :data, input_html: { class: 'inline' }
+		
+		= f.input :activity, collection: [ "macchinista", "elettricista", "service", "facchino", "custode", "fonico"], input_html: { class: 'inline' }
+		
+		= f.collection_select(:technician_id, Technician.all, :id, :name, include_blank: true, class: 'inline' )
+		= f.input :column, input_html: { class: 'inline' }
+		= link_to_remove_association "Remove", f, class: "inline"
+
+
+
+

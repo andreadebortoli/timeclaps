@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
 resources :projects
+resources :works
+resources :calendars
 
-root "projects#index"
+
+root "calendars#index"
 
 end

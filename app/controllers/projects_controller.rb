@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
 	private 
 
 	def project_params
-		params.require(:project).permit(:titolo, :id_cliente, :stato, works_attributes: [:id, :data, :activity, :location_id, :_destroy])
+		params.require(:project).permit(:titolo, :customer_id, :stato, works_attributes: [:id, :data, :activity, :column, :location_id, :technician_id, :_destroy])
 	end
 
 	def find_project

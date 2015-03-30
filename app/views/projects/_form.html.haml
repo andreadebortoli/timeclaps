@@ -9,9 +9,8 @@
 					%li= msg
 	.panel-body
 		= f.input :titolo, input_html: { class: 'form-control' }
-		= f.input :id_cliente, input_html: { class: 'form-control' }
-		= f.input :stato, input_html: { class: 'form-control' }
-
+		= f.collection_select(:customer_id, Customer.all, :id, :name, include_blank: true, class: 'form-control' )
+		= f.input :stato, collection: [ "da preventivare", "da pagare", "pagato"], input_html: { class: 'form-control' }
 		.row
 			.col-md-6
 				%h3 lavori

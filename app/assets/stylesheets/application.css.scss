@@ -34,6 +34,26 @@ body {
 	padding: 0 0 50px 0;
 }
 
+.orario {
+	visibility: hidden;
+	
+}
+
+.orario:hover {
+
+	visibility: visible;
+}
+
+tr:hover {
+	background: #fff;
+}
+
+table{
+	padding: 0;
+	margin: 0;
+}
+
+
 .alert {
 	padding: 15px;
 	margin-bottom: 20px;
@@ -95,10 +115,17 @@ body {
 	margin-bottom: 50px;
 }
 
-#recipe_info, #ingredients, #directions {
+#project_info {
 	background: white;
 	@include box-shadow;
-	min-height: 360px;
+	min-height: 80px;
+	border-radius: 5px;
+	padding: 2em 8%;
+}
+#lavori {
+	background: white;
+	@include box-shadow;
+	
 	border-radius: 5px;
 	padding: 2em 8%;
 }
@@ -133,17 +160,22 @@ body {
 }
 
 .form-inline {
-	margin-top: 15px;
+	margin-top: 5px;
+	display: inline;
 }
 .form-input {
 	width: 65% !important;
-	float: left;
+	display: inline;
+	
 }
 .form-button {
-	float: left;
+	
 	width: 30% !important;
 	margin-left: 5%;
 }
 .add-button {
 	margin-top: 25px;
 }
+
+
+
