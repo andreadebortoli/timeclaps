@@ -1,0 +1,286 @@
+<h2 >
+    <%= link_to "<", :mese => (@date.beginning_of_month-1).strftime("%m"), :anno => (@date.beginning_of_month-1).strftime("%Y") %>
+
+   	<% if @date.strftime("%m") == '01' %>
+   		<%= 'GENNAIO' %>
+   	<% elsif @date.strftime("%m") == '02' %>
+   		<%= 'FEBBRAIO' %>
+   	<% elsif @date.strftime("%m") == '03' %>
+   		<%= 'MARZO' %>
+   	<% elsif @date.strftime("%m") == '04' %>
+   		<%= 'APRILE' %>
+   	<% elsif @date.strftime("%m") == '05' %>
+   		<%= 'MAGGIO' %>
+   	<% elsif @date.strftime("%m") == '06' %>
+   		<%= 'GIUGNO' %>
+   	<% elsif @date.strftime("%m") == '07' %>
+   		<%= 'LUGLIO' %>
+   	<% elsif @date.strftime("%m") == '08' %>
+   		<%= 'AGOSTO' %>
+   	<% elsif @date.strftime("%m") == '09' %>
+   		<%= 'SETTEMBRE' %>
+   	<% elsif @date.strftime("%m") == '10' %>
+   		<%= 'OTTOBRE' %>
+   	<% elsif @date.strftime("%m") == '11' %>
+   		<%= 'NOVEMBRE' %>
+   	<% elsif @date.strftime("%m") == '12' %>
+   		<%= 'DICEMBRE' %>
+   	<% end %>
+
+     <%= @date.strftime("%Y") %>
+    <%= link_to ">", :mese => (@date.end_of_month+1).strftime("%m"), :anno => (@date.end_of_month+1).strftime("%Y") %>
+  </h2>
+
+
+<h4 class = "modific" ><%= link_to 'Nuovo lavoro', new_project_path, id:'new_link', remote: true %></h4>
+
+<%= link_to 'Stage', calendars_path(technician_id: 1, mese: params[:mese], anno: params[:anno]) %>
+<%= link_to 'Simo', calendars_path(technician_id: 2, mese: params[:mese], anno: params[:anno] ) %>
+<%= link_to 'Andrea', calendars_path(technician_id: 3, mese: params[:mese], anno: params[:anno] ) %>
+<%= link_to 'Loris', calendars_path(technician_id: 4, mese: params[:mese], anno: params[:anno] ) %>
+<%= link_to 'Esterni', calendars_path(esterno: true, mese: params[:mese], anno: params[:anno] ) %>
+
+
+
+
+
+
+
+
+<table class="table table-bordered">
+	<tbody>
+		<tr>
+				<th id = 'data' colspan = '2'>Data</th>
+				<th class = 'location' >Verdi</th>
+				<th id = 'custodia' >c</th>
+				<th class = 'location' >Azzano</th>
+				<th id = 'custodia' >c</th>
+				<th class = 'location' >Fiera</th>
+				<th id = 'custodia' >c</th>
+				<th class = 'location' >Maniago</th>
+				<th id = 'custodia' >c</th>
+				<th class = 'location' >Cordenons</th>
+				<th class = 'location' >Auditorium</th>
+				<th class = 'location'  >Pordenone</th>
+				<th class = 'location' >fuori Pordenone</th>
+				<th class = 'location' >altro 1</th>
+				<th class = 'location' >altro 2</th>
+		</tr>
+
+
+	<% loop do %>
+		<% @i += 1 %>
+		<% break if @i > @days_in_month %>
+		
+			<% @dd = sprintf ('%02d'), @i %>
+			<% if @dd == @day_s && @date.strftime("%m").to_i == Time.now.month && @date.strftime("%Y").to_i == Time.now.year %>
+			<tr id = "oggi">
+			<% else %>
+			<tr>
+			<% end %>
+				<td>
+					<% @wDay = Time.new(@date.strftime("%Y"),@date.strftime("%m"),@dd ).strftime('%A') %>
+					<% if @wDay == 'Monday' %>
+					<%= 'l' %>
+					<% end %>
+					<% if @wDay == 'Tuesday' %>
+					<%= 'm' %>
+					<% end %>
+					<% if @wDay == 'Wednesday' %>
+					<%= 'm' %>
+					<% end %>
+					<% if @wDay == 'Thursday' %>
+					<%= 'g' %>
+					<% end %>
+					<% if @wDay == 'Friday' %>
+					<%= 'v' %>
+					<% end %>
+					<% if @wDay == 'Saturday' %>
+					<%= 's' %>
+					<% end %>	
+					<% if @wDay == 'Sunday' %>
+					<%= 'd' %>
+					<% end %>
+				</td>
+				<td>
+					<%= @dd %>
+				</td>
+				
+				<% l = ['verdi','custodiaVerdi','azzano', 'custodiaAzzano', 'fiera', 'custodiaFiera', 'maniago', 'custodiaManiago', 'cordenons', 'auditorium','altro Pn','altro Fuori PN','altro 1','altro 2'] %>
+				
+
+				<% l.each do |loc| %>
+				<% v = @works.where(:column => loc) %>
+				<% @macchinista  = 0 %>
+				<% @elettricista  = 0 %>
+				<% @fonico  = 0 %>
+				<% @service  = 0 %>
+				<% @facchini  = 0 %>
+				<% @titoloP  = 0 %>
+				<% @aiuti = 0 %>
+				<% @noRepeatM = 0 %>
+				<% @noRepeatE  = 0 %>
+				<% @noRepeatF  = 0 %>
+				<% @noRepeatP  = 0 %>
+				<% @noRepeatService = 0 %>
+				<% @meseCella = sprintf ('%02d'), @month %>
+				<% if params[:mese].blank? && params[:ano].blank? %>
+					<td  id = '<%= @dd  %><%= @meseCella %><%= @year %><%= loc %>'>
+				<% else %>
+					<td  id = '<%= @dd  %><%= params[:mese] %><%= params[:anno] %><%= loc %>'>
+				<% end %>
+
+				
+				<%= link_to '&nbsp;'.html_safe , new_project_path, remote: true %>
+				<% v.each do |w| %>
+					<% @d = w.data.strftime('%d') %>
+					<% @m = w.data.strftime('%m') %>
+					<% @y = w.data.strftime('%Y') %>
+					
+					
+					
+						<% if @d == @dd && @m == @date.strftime("%m") && @y == @date.strftime("%Y")%>
+								<% if loc == 'custodiaVerdi' || loc == 'custodiaAzzano' || loc == 'custodiaFiera' || loc == 'custodiaManiago'%>
+								<% @p = 'xxx' %>
+								<% else %>
+								<% @p = Project.find(w.project_id).titolo %>
+								<% end %>
+								<% @id = w.project_id%>
+									<% if @noRepeatP == 1 %>
+									<% @titoloP += 1 %>
+									<% else %>
+									<% @titoloP += 1 %>
+									<% @noRepeatP = 1 %>
+									<h4 class = "titoloP"><%= link_to @p, project_path(@id) %></h4>
+									
+									<% end %>
+
+								
+								<% @t = w.activity %>
+								
+								<% if @t == 'macchinista'%>
+									<% if @noRepeatM == 1 %>
+									<% @macchinista += 1 %>
+									<% else %>
+									<% @macchinista += 1 %>
+									<% @noRepeatM = 1 %>
+									<% @mm = @t %>
+									
+									<% end %>
+								<% end %>
+
+								<% if @t == 'elettricista'%>
+									<% if @noRepeatE == 1 %>
+									<% @elettricista += 1 %>
+									<% else %>
+									<% @elettricista += 1 %>
+									<% @noRepeatE = 1 %>
+									<% @ee = @t %>
+									
+									
+									<% end %>
+								<% end %>
+
+
+								<% if @t == 'fonico'%>
+									<% if @noRepeatF == 1 %>
+									<% @fonico += 1 %>
+									<% else %>
+									<% @fonico += 1 %>
+									<% @noRepeatF = 1 %>
+									<% @ff = @t %>
+									
+									
+									<% end %>
+								<% end %>
+
+								<% if @t == 'service'%>
+									<% @ls = w.column %>
+									<% if @noRepeatService == 1 %>
+									<% @service += 1 %>
+									<% else %>
+									<% @service += 1 %>
+									<% @noRepeatService = 1 %>
+									
+									
+									
+									<% end %>
+								<% end %>
+
+								<% if @t == 'facchino' %>
+								<% @facchini += 1 %>
+								<% end %>
+								<% if @t == 'custode' %>
+									<%= 'c' %>
+									<div class = "orario">orario custodia</div>
+								<% end %>
+							
+							
+							
+							<% @l = loc %>
+							
+							
+							
+						<% end %>
+						
+						
+					<% end %>
+					</br>
+					<% if @macchinista > 0 %>
+					<% @aiuti = 1 %>
+					<a class = "activity"><%= @macchinista %></a>
+						<span style="font-weight:bold"><%= link_to 'M', project_path(@id) %></span>
+						
+					<% end %>
+					<% if @elettricista > 0 %>
+					<% @aiuti = 1 %>
+						<a class = "activity"><%= @elettricista %></a>
+						<span style="font-weight:bold"><%= link_to 'E', project_path(@id), :class => "activity" %></span>
+						
+					<% end %>
+
+					<% if @fonico > 0  %>
+					<% @aiuti = 1 %>
+						<a class = "activity"><%= @fonico %></a>
+						<span style="font-weight:bold"><%= link_to 'F', project_path(@id), :class => "activity" %></span>
+						
+					<% end %>
+
+					
+					<% if @facchini > 0%>
+						
+							(<%= link_to @facchini, project_path(@id) %>)
+						
+					<% end %>
+					<% if @aiuti == 1 %>
+					</br>
+					<% else %>
+
+					<% end %>
+					<% if @service > 0 %>
+						<a class = "activity"><%= @service %></a>
+						<span style="font-weight:bold"><%= link_to 'sv', project_path(@id), :class => "activity" %></span>
+						<%= @ls %>
+						
+					<% end %>
+					
+				</td>
+				<% end %>
+				<% @noRepeatM = 0 %>
+				<% @noRepeatE = 0 %>
+				<% @noRepeatF = 0 %>
+				<% @noRepeatService = 0 %>
+			</tr>
+	
+					
+		
+	<% end %>
+
+
+
+</tbody>
+</table>
+
+<div id = "mod" >
+
+</div>
